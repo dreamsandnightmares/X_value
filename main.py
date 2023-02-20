@@ -41,7 +41,7 @@ def Revenue_all(Revenue_gen:float,x:list,y:list,n,eff,price):
         Revenue_storage-= (y[i]/eff*price[i])
     # print(Revenue_storage,'R_storage')
     # print(Revenue_gen,'gen')
-    R_tot = (Revenue_gen+Revenue_storage)/5
+    R_tot = (Revenue_gen+Revenue_storage)/25
     return R_tot
 
 def clip(n:int):
@@ -141,7 +141,7 @@ if __name__ == '__main__':
             plt.xlabel(('storage time'))  # 去掉x标签
             plt.ylabel(('storage ratio'))  # 去掉y标签
 
-            plt.savefig('storage{}+power{}.svg'.format(storage,power),format='svg')
+            plt.savefig('25storage{}+power{}.svg'.format(storage,power),format='svg')
             plt.clf()
             print(Z)
 
