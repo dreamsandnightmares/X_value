@@ -89,12 +89,12 @@ def max_R(time_range:int,n,E_max,h,eff,C_gen,C_power,C_storage):
 
 
 if __name__ == '__main__':
-    time_range =240
+    time_range =507
     pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor = clip(time_range)
     x_gen  =X_gen(pv_power_rate=220,time_load=time_range)
 
     load_nor = load_nor(pd_load)
-    n = 240
+    n = 507
     eff = 0.9
 
 
@@ -107,8 +107,8 @@ if __name__ == '__main__':
     R_tot= Revenue_all(Revenue_Gen,x,y,n,eff,pd_price)
     # print(R_tot,'R_tot')
     crf = CRF()
-    X = x_value(R_tot,crf,C_gen=1000,C_power=50,C_storage=50,E_max=3,h=2)
-    x_max = max_R(time_range=8000,n=456,E_max=1,h=1,eff=0.9,C_gen=1000,C_power=100,C_storage=100)
+    # X = x_value(R_tot,crf,C_gen=1000,C_power=50,C_storage=50,E_max=3,h=2)
+    # x_max = max_R(time_range=8000,n=456,E_max=1,h=1,eff=0.9,C_gen=1000,C_power=100,C_storage=100)
     # print(x_max)
     # dist_x_gen  =list(range(len(x_gen)))
     #
@@ -160,7 +160,7 @@ if __name__ == '__main__':
                 print(E_max_ra[i],'E_max')
                 for j in range(len(h_ra)):
                     print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=456, E_max=i, h=j, eff=0.6, C_gen=1000, C_power=power, C_storage=storage)
+                    x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.6, C_gen=1000, C_power=power, C_storage=storage)
 
                     Z_X.append(x_max)
                 Z.append(Z_X)
@@ -194,7 +194,7 @@ if __name__ == '__main__':
                 print(E_max_ra[i],'E_max')
                 for j in range(len(h_ra)):
                     print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=456, E_max=i, h=j, eff=0.9, C_gen=1000, C_power=power, C_storage=storage)
+                    x_max = max_R(time_range=8000, n=504, E_max=i, h=j, eff=0.9, C_gen=1000, C_power=power, C_storage=storage)
 
                     Z_X.append(x_max)
                 Z.append(Z_X)
