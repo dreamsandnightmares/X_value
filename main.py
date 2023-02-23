@@ -90,12 +90,12 @@ def max_R(time_range:int,n,E_max,h,eff,C_gen,C_power,C_storage):
 
 
 if __name__ == '__main__':
-    time_range =1440
+    time_range =507
     pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor = clip(time_range)
     x_gen  =X_gen(pv_power_rate=220,time_load=time_range)
 
     load_nor = load_nor(pd_load)
-    n = 1440
+    n = 507
     eff = 0.9
 
 
@@ -140,53 +140,53 @@ if __name__ == '__main__':
     # plt.savefig('X_gen switch.svg', format='svg')
     #
     # plt.show()
-
-
-
-
-
-
-
-
-    C_power = [1190, 952, 590]
-    C_storage = [93, 74 , 46]
-    E_max_ra = np.arange(0.001, 10,0.5)
-    print(E_max_ra)
-    h_ra = np.arange(0.001, 10,0.25 )
-    for power in C_power:
-        for storage in C_storage:
-            Z = []
-            for i in range(len(E_max_ra)):
-                Z_X = []
-                print(E_max_ra[i],'E_max')
-                for j in range(len(h_ra)):
-                    print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.6, C_gen=6965, C_power=power, C_storage=storage)
-
-                    Z_X.append(x_max)
-                Z.append(Z_X)
-            Z = np.array(Z)
-            z = Z.tolist()
-
-            ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
-
-
-            plt.colorbar()  # 添加cbar
-            cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
-            plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
-            plt.title('storage{}! power{}!'.format(storage,power))
-            plt.xlabel(('storage time'))  # 去掉x标签
-            plt.ylabel(('storage ratio'))  # 去掉y标签
-
-            plt.savefig('6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
-            plt.clf()
-            print(Z)
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    # C_power = [1190, 952, 590]
+    # C_storage = [93, 74 , 46]
+    # E_max_ra = np.arange(0.001, 5,0.5)
+    # print(E_max_ra)
+    # h_ra = np.arange(0.001, 5,0.25 )
+    # for power in C_power:
+    #     for storage in C_storage:
+    #         Z = []
+    #         for i in range(len(E_max_ra)):
+    #             Z_X = []
+    #             print(E_max_ra[i],'E_max')
+    #             for j in range(len(h_ra)):
+    #                 print(h_ra[j],'h')
+    #                 x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.6, C_gen=6965, C_power=power, C_storage=storage)
+    #
+    #                 Z_X.append(x_max)
+    #             Z.append(Z_X)
+    #         Z = np.array(Z)
+    #         z = Z.tolist()
+    #
+    #         ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
+    #
+    #
+    #         plt.colorbar()  # 添加cbar
+    #         cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
+    #         plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
+    #         plt.title('storage{}! power{}!'.format(storage,power))
+    #         plt.xlabel(('storage time'))  # 去掉x标签
+    #         plt.ylabel(('storage ratio'))  # 去掉y标签
+    #
+    #         plt.savefig('6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
+    #         plt.clf()
+    #         print(Z)
 
     C_power = [870, 1390, 1743]
     C_storage = [1190, 952, 590]
-    E_max_ra = np.arange(0.001, 4,0.5)
+    E_max_ra = np.arange(0.001, 5,0.5)
     print(E_max_ra)
-    h_ra = np.arange(0.001, 4,0.25 )
+    h_ra = np.arange(0.001, 5,0.25 )
     for power in C_power:
         for storage in C_storage:
             Z = []
@@ -195,7 +195,7 @@ if __name__ == '__main__':
                 print(E_max_ra[i],'E_max')
                 for j in range(len(h_ra)):
                     print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=504, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
+                    x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
 
                     Z_X.append(x_max)
                 Z.append(Z_X)

@@ -15,7 +15,7 @@ def data_load():
     # path = r"../RECO_data"
     # print(os.listdir(path))
     path = 'RECO_data'
-    FileNames = os.listdir('RECO_data')
+    FileNames = os.listdir(path)
     # print(FileNames)
     x = pd.DataFrame()
     for name in  FileNames:
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     dist_price = list(range(len(pd_price)))
     # plt.plot(dist_price,pd_price1)
     plt.show()
-    plt.plot(dist_price,pd_price)
+    plt.plot(dist_price,pd_load[:8222])
 
 
 

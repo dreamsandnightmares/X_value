@@ -31,6 +31,7 @@ def solver(X_gen,pd_price,E_max,eff,h,n):
 
     solution = model1.solve()
     return solution.get_values(x),solution.get_values(y)
+    # return solution
 
 
 if __name__ == '__main__':
@@ -43,12 +44,13 @@ if __name__ == '__main__':
     price =pd_price[:507]
 
 
-    x,y = solver(x_gen,price,E_max=1,eff=0.9,h=1,n=507)
-
-    x_new = list(np.round(np.array(x),2))
-    y_new = list(np.round(np.array(y),2))
-    print(x_new)
-    print(y_new)
+    x = solver(x_gen,price,E_max=1,eff=0.9,h=1,n=507)
+    print(x)
+    #
+    # x_new = list(np.round(np.array(x),2))
+    # # y_new = list(np.round(np.array(y),2))
+    # print(x_new)
+    # print(y_new)
 
 
 
