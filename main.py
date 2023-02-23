@@ -41,7 +41,7 @@ def Revenue_all(Revenue_gen:float,x:list,y:list,n,eff,price):
         Revenue_storage-= (y[i]/eff*price[i])
     # print(Revenue_storage,'R_storage')
     # print(Revenue_gen,'gen')
-    R_tot = (Revenue_gen+Revenue_storage)/5
+    R_tot = (Revenue_gen+Revenue_storage)
     return R_tot
 
 def clip(n:int):
@@ -160,7 +160,7 @@ if __name__ == '__main__':
                 print(E_max_ra[i],'E_max')
                 for j in range(len(h_ra)):
                     print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.6, C_gen=1000, C_power=power, C_storage=storage)
+                    x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.6, C_gen=6965, C_power=power, C_storage=storage)
 
                     Z_X.append(x_max)
                 Z.append(Z_X)
@@ -177,7 +177,7 @@ if __name__ == '__main__':
             plt.xlabel(('storage time'))  # 去掉x标签
             plt.ylabel(('storage ratio'))  # 去掉y标签
 
-            plt.savefig('H2storage{}+power{}.svg'.format(storage,power),format='svg')
+            plt.savefig('6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
             plt.clf()
             print(Z)
 
@@ -194,7 +194,7 @@ if __name__ == '__main__':
                 print(E_max_ra[i],'E_max')
                 for j in range(len(h_ra)):
                     print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=504, E_max=i, h=j, eff=0.9, C_gen=1000, C_power=power, C_storage=storage)
+                    x_max = max_R(time_range=8000, n=504, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
 
                     Z_X.append(x_max)
                 Z.append(Z_X)
@@ -211,7 +211,7 @@ if __name__ == '__main__':
             plt.xlabel(('storage time'))  # 去掉x标签
             plt.ylabel(('storage ratio'))  # 去掉y标签
 
-            plt.savefig('Listorage{}+power{}.svg'.format(storage,power),format='svg')
+            plt.savefig('6965Listorage{}+power{}.svg'.format(storage,power),format='svg')
             plt.clf()
             print(Z)
 
