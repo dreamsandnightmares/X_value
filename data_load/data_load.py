@@ -6,10 +6,17 @@ import numpy as np
 from scipy.interpolate.interpolate import make_interp_spline
 
 
-path = r"/home/wch/Downloads/RECO_data/"
-FileNames =os.listdir(path)
+#
+# path = r"../RECO_data"
+#
+# FileNames =os.listdir(path)
 
 def data_load():
+    # path = r"../RECO_data"
+    # print(os.listdir(path))
+    path = 'RECO_data'
+    FileNames = os.listdir('RECO_data')
+    # print(FileNames)
     x = pd.DataFrame()
     for name in  FileNames:
 
@@ -40,10 +47,21 @@ def data_load():
 
     return pd_load,pd_price,pd_wea_wind,pd_wea_G_dir,pd_wea_G_diff,pd_wea_T,pd_wea_G_hor
 
+def price_reset(pd_price:list):
+    a =np.diff(pd_price)
+    for i in range(len(np.diff(pd_price))):
+        if abs(a[i])  >10:
+            pd_price[i+1] = pd_price[i]
+
+
+    return pd_price
+
 if __name__ == '__main__':
     pd_load,pd_price,pd_wea_wind,pd_wea_G_dir,pd_wea_G_diff,pd_wea_T ,pd_wea_G_hor= data_load()
-
+    pd_price1 =price_reset(pd_price)
     dist_price = list(range(len(pd_price)))
+    # plt.plot(dist_price,pd_price1)
+    plt.show()
     plt.plot(dist_price,pd_price)
 
 

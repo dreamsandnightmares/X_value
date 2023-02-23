@@ -6,6 +6,7 @@ import math
 import numpy as np
 from Docplex.solver import solver
 import time
+import  os
 
 
 
@@ -89,12 +90,12 @@ def max_R(time_range:int,n,E_max,h,eff,C_gen,C_power,C_storage):
 
 
 if __name__ == '__main__':
-    time_range =507
+    time_range =1440
     pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor = clip(time_range)
     x_gen  =X_gen(pv_power_rate=220,time_load=time_range)
 
     load_nor = load_nor(pd_load)
-    n = 507
+    n = 1440
     eff = 0.9
 
 
@@ -149,9 +150,9 @@ if __name__ == '__main__':
 
     C_power = [1190, 952, 590]
     C_storage = [93, 74 , 46]
-    E_max_ra = np.arange(0.001, 4,0.5)
+    E_max_ra = np.arange(0.001, 10,0.5)
     print(E_max_ra)
-    h_ra = np.arange(0.001, 4,0.25 )
+    h_ra = np.arange(0.001, 10,0.25 )
     for power in C_power:
         for storage in C_storage:
             Z = []
