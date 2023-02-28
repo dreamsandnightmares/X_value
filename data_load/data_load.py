@@ -7,14 +7,14 @@ from scipy.interpolate.interpolate import make_interp_spline
 
 
 #
-# path = r"../RECO_data"
+path = r"RECO_data"
 #
 # FileNames =os.listdir(path)
 
 def data_load():
     # path = r"../RECO_data"
     # print(os.listdir(path))
-    path = 'RECO_data'
+    # path = 'RECO_data'
     FileNames = os.listdir(path)
     # print(FileNames)
     x = pd.DataFrame()
@@ -31,6 +31,7 @@ def data_load():
             pd_price= x['JCPL'].tolist()
             for i in  range(len(x)):
                 if float(pd_price[i].strip("$")) >100:
+
                     pd_price[i]  =100
                 else:
                     pd_price[i] = float(pd_price[i].strip("$"))
@@ -48,13 +49,12 @@ def data_load():
     return pd_load,pd_price,pd_wea_wind,pd_wea_G_dir,pd_wea_G_diff,pd_wea_T,pd_wea_G_hor
 
 def price_reset(pd_price:list):
-    a =np.diff(pd_price)
-    for i in range(len(np.diff(pd_price))):
-        if abs(a[i])  >10:
-            pd_price[i+1] = pd_price[i]
+   for i in range(len(pd_price)):
+       if pd_price[i] >70:
+           pd_price[i] = pd_price[i]/1.5
 
 
-    return pd_price
+   return pd_price
 
 if __name__ == '__main__':
     pd_load,pd_price,pd_wea_wind,pd_wea_G_dir,pd_wea_G_diff,pd_wea_T ,pd_wea_G_hor= data_load()
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     dist_price = list(range(len(pd_price)))
     # plt.plot(dist_price,pd_price1)
     plt.show()
-    plt.plot(dist_price,pd_load[:8222])
+    plt.plot(dist_price,pd_price[:8222])
 
 
 
