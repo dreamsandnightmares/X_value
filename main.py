@@ -1,4 +1,4 @@
-from data_load.data_load import data_load,price_reset
+from data_load.data_load import data_load
 from System.PV import PVSystem
 import  matplotlib.pyplot as plt
 from draw_plt.plot import draw_data_plt
@@ -43,7 +43,7 @@ def Revenue_all(Revenue_gen:float,x:list,y:list,n,eff,price):
     # print(Revenue_storage,'R_storage')
     # print(Revenue_gen,'gen')
     R_tot = (Revenue_gen+Revenue_storage)
-    return R_tot
+    return R_tot/2.2
 
 def clip(n:int):
     pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor =data_load()
@@ -93,15 +93,23 @@ if __name__ == '__main__':
     time_range =8000
     pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor = clip(time_range)
     x_gen  =X_gen(pv_power_rate=220,time_load=time_range)
-    pd_price1 = price_reset(pd_price)
+    # pd_price1 = price_reset(pd_price)
+    # print(CRF())
+    # print(max(pd_price))
     # print(pd_price)
-
+    #
+    # dist = list(range(len(pd_price)))
+    # plt.plot(dist,pd_price)
+    # plt.ylabel('Mw/¥')
+    # plt.xlabel('time')
+    # plt.show()
+    #
     # load_nor = load_nor(pd_load)
-    # n = 507
-    # eff = 0.9
-    #
-    #
-    #
+    n = 507
+    eff = 0.9
+
+
+
     # x,y=solver(x_gen[:time_range],pd_price,E_max=1,eff=0.9,h=1,n=n)
     # # print(x,y)
     # draw_data_plt(False,x_gen,pd_price,load_nor,pd_load)
@@ -184,40 +192,40 @@ if __name__ == '__main__':
     #         plt.savefig('6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
     #         plt.clf()
     #         print(Z)
+    #
+    C_power = [870,1390,1743]
+    C_storage = [1190,952,590 ]
+    E_max_ra = np.arange(0.001, 4,0.5)
+    print(E_max_ra)
+    h_ra = np.arange(0.001,4,0.25 )
+    for power in C_power:
+        for storage in C_storage:
+            Z = []
+            for i in range(len(E_max_ra)):
+                Z_X = []
+                print(E_max_ra[i],'E_max')
+                for j in range(len(h_ra)):
+                    print(h_ra[j],'h')
+                    x_max = max_R(time_range=8000, n=n, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
 
-    # C_power = [870, 1390, 1743]
-    # C_storage = [1190, 952, 590]
-    # E_max_ra = np.arange(0.001, 4,1)
-    # print(E_max_ra)
-    # h_ra = np.arange(0.001, 4,0.5 )
-    # for power in C_power:
-    #     for storage in C_storage:
-    #         Z = []
-    #         for i in range(len(E_max_ra)):
-    #             Z_X = []
-    #             print(E_max_ra[i],'E_max')
-    #             for j in range(len(h_ra)):
-    #                 print(h_ra[j],'h')
-    #                 x_max = max_R(time_range=8000, n=n, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
-    #
-    #                 Z_X.append(x_max)
-    #             Z.append(Z_X)
-    #         Z = np.array(Z)
-    #         z = Z.tolist()
-    #
-    #         ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
-    #
-    #
-    #         plt.colorbar()  # 添加cbar
-    #         cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
-    #         plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
-    #         plt.title('storage{}! power{}!'.format(storage,power))
-    #         plt.xlabel(('storage time'))  # 去掉x标签
-    #         plt.ylabel(('storage ratio'))  # 去掉y标签
-    #
-    #         plt.savefig(' no price 6965Listorage{}+power{}.svg'.format(storage,power),format='svg')
-    #         plt.clf()
-    #         print(Z)
+                    Z_X.append(x_max)
+                Z.append(Z_X)
+            Z = np.array(Z)
+            z = Z.tolist()
+
+            ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
+
+
+            plt.colorbar()  # 添加cbar
+            cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
+            plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
+            # plt.title('storage{}! power{}!'.format(storage,power))
+            plt.xlabel(('Hours [h]'))  # 去掉x标签
+            plt.ylabel(('E_max'))  # 去掉y标签
+
+            plt.savefig(' 1111111 6965Listorage{}+power{}.svg'.format(storage,power),format='svg')
+            plt.clf()
+            print(Z)
 
 
 
