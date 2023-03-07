@@ -36,8 +36,7 @@ def data_load():
                 else:
                     pd_price[i] = float(pd_price[i].strip("$"))
             for i in range(len(pd_price)):
-                # if pd_price[i]>70:
-                #     pd_price[i] = 70
+                pd_price[i] = pd_price[i]/100
                 pass
 
         else:
