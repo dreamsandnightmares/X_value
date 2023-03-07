@@ -193,8 +193,8 @@ if __name__ == '__main__':
     #         plt.clf()
     #         print(Z)
     #
-    C_power = [870,1390,1743]
-    C_storage = [1190,952,590 ]
+    C_power = [1190,]
+    C_storage = [46,]
     E_max_ra = np.arange(0.001, 4,0.5)
     print(E_max_ra)
     h_ra = np.arange(0.001,4,0.25 )
@@ -206,7 +206,7 @@ if __name__ == '__main__':
                 print(E_max_ra[i],'E_max')
                 for j in range(len(h_ra)):
                     print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=n, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
+                    x_max = max_R(time_range=8000, n=n, E_max=i, h=j, eff=0.5, C_gen=10065, C_power=power, C_storage=storage)
 
                     Z_X.append(x_max)
                 Z.append(Z_X)
@@ -223,7 +223,7 @@ if __name__ == '__main__':
             plt.xlabel(('Hours [h]'))  # 去掉x标签
             plt.ylabel(('E_max'))  # 去掉y标签
 
-            plt.savefig(' 1111111 6965Listorage{}+power{}.svg'.format(storage,power),format='svg')
+            plt.savefig(' 12汇报{}+power{}.svg'.format(storage,power),format='svg')
             plt.clf()
             print(Z)
 
