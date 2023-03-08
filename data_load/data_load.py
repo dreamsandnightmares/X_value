@@ -32,12 +32,12 @@ def data_load():
             for i in  range(len(x)):
                 if float(pd_price[i].strip("$")) >100:
 
-                    pd_price[i]  =100
+                    pd_price[i]  =50
                 else:
                     pd_price[i] = float(pd_price[i].strip("$"))
-            for i in range(len(pd_price)):
-                pd_price[i] = pd_price[i]/100
-                pass
+            # for i in range(len(pd_price)):
+            #     pd_price[i] = pd_price[i]/100
+            #     pass
 
         else:
             full_name = os.path.join(path,name)
