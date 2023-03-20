@@ -9,29 +9,27 @@ pd_load,pd_price,pd_wea_wind,pd_wea_G_dir,pd_wea_G_diff,pd_wea_T ,pd_wea_G_hor= 
 
 class PVSystem(object):
 
-    def __init__(self,P_PV_rated):
-
-        self.NocT = 44
+    def __init__(self,P_PV_rated,pd_wea_T,pd_wea_G_dir,pd_wea_G_diff,pd_wea_G_hor):
+        '温度信息'
+        self.T = pd_wea_T
+        self.pd_wea_G_dir = pd_wea_G_dir
+        self.pd_wea_G_diff = pd_wea_G_diff
+        self.pd_wea_G_hor =pd_wea_G_hor
+        self.NocT =44
         self.P_PV_rated = P_PV_rated
+        self.g_all = []
 
-        pass
+    def PVpower(self,time,f_pv = 0.9,G_stc = 1,gammaT = -0.002,T_cell_STC = 25):
 
-    def T_cell(self,t,G,):
-        T_cell = pd_wea_T[t]+G[t]/0.8*(self.NocT-20)
-        return T_cell
+        G = (float(self.pd_wea_G_dir[time])) * math.cos(2 * math.pi / 360 * 26.7) + (float(self.pd_wea_G_diff[time])) * 0.5 + (
+            float(self.pd_wea_G_hor[time])) * 0.4 * 0.8
 
-    # def G(self,t,G_hor,theta=50,F_cs=0.84,p_g=0.2,F_cg=0.84):
-    #
-    #     G = pv_data_dir[t]*math.cos(2*math.pi/360*theta)+pv_data_dif(t)*F_cs+G_hor[t]*p_g*F_cg
-    #     return G
-    def PVpower(self,time,f_PV = 0.86,G_STC = 1,gammaT = 0.003, T_cell_STC = 25):
+        T_cell = self.T[time] + (float(G)) / 0.8 * (45 - 20) / 1000
 
-        # print(math.cos(2 * math.pi / 360 * 50) )
-        G = (float(pd_wea_G_dir[time])) *math.cos(2*math.pi/360*50)+(float(pd_wea_G_diff[time]))*0.84+(float(pd_wea_G_hor[time]))*0.2*0.84
-        T_cell =pd_wea_T[time]+(float(G))/0.8*(44-20)/1000
-        # print( T_cell,'T')
-        P_PV = f_PV*self.P_PV_rated*(float(G))/G_STC*(1+gammaT*(T_cell-T_cell_STC))/1000
+        P_PV = f_pv*self.P_PV_rated*(float(G))/G_stc*(1+gammaT*(T_cell-T_cell_STC))/1000
 
+
+        self.g_all.append(G)
         return P_PV
 
 if __name__ == '__main__':

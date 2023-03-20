@@ -30,10 +30,10 @@ def data_load():
             x= pd.concat([x,data])
             pd_price= x['JCPL'].tolist()
             for i in  range(len(x)):
-                if float(pd_price[i].strip("$")) >100:
-
-                    pd_price[i]  =50
-                else:
+                # if float(pd_price[i].strip("$")) >100:
+                #
+                #     pd_price[i]  =100
+                # else:
                     pd_price[i] = float(pd_price[i].strip("$"))
             # for i in range(len(pd_price)):
             #     pd_price[i] = pd_price[i]/100

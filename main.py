@@ -12,6 +12,7 @@ import  os
 
 
 def X_gen(pv_power_rate,time_load):
+    '归一化光伏输出功率'
     pv = PVSystem(P_PV_rated=pv_power_rate)
     x_gen =[]
     for i in range(time_load):
@@ -20,32 +21,43 @@ def X_gen(pv_power_rate,time_load):
 
 
 def load_nor(load:list):
+    '归一化负荷'
     load_list = []
     for i in range(len(load)):
         load_list.append(load[i]/max(load))
     return load_list
 
 def Revenue_gen(r_x_gen:list,price):
+    "光伏的收益"
     R = 0
     # print(len(r_x_gen))
     # print(len(price))
     for i in range(len(r_x_gen)):
         R+=r_x_gen[i]*price[i]
-    R  =R*220/1000
+    '*光伏额定功率/1000  MW 转换至 kW'
+    # R  =R*220/1000
+    R = R * 8 / 1000
     return R
 def Revenue_all(Revenue_gen:float,x:list,y:list,n,eff,price):
+    '储能的收益'
     Revenue_storage = 0
     for i in range(n):
 
-        Revenue_storage+=((x[i])*price[i])
+        # Revenue_storage+=((x[i])*price[i])
+        #
+        # Revenue_storage-= (y[i]/eff*price[i])
 
-        Revenue_storage-= (y[i]/eff*price[i])
+        Revenue_storage+=((x[i])*price[i])/1000*8
+
+        Revenue_storage-= (y[i]/eff*price[i])/1000*8
     # print(Revenue_storage,'R_storage')
     # print(Revenue_gen,'gen')
     R_tot = (Revenue_gen+Revenue_storage)
-    return R_tot/2.2
+    # return R_tot/2.2
+    return  R_tot
 
 def clip(n:int):
+    '截取一段数据'
     pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor =data_load()
     pd_load = pd_load[:n]
     pd_price=pd_price[:n]
@@ -57,14 +69,17 @@ def clip(n:int):
     return pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor
 
 def CRF(i=0.05, n=20):
+    '计算年化投资成本'
     crf = i * math.pow((1 + i), n) / (math.pow((1 + i), n) - 1)
     return crf
 def x_value(R_tot,crf,C_gen,C_power,C_storage,E_max,h,):
+    '计算x值'
     x  = R_tot/(crf*(C_gen+E_max*(C_power+h*C_storage)))
     # print(R_tot)
     # print((crf*(C_gen+E_max*(C_power+h*C_storage)),'cost'))
     return x
 def max_R(time_range:int,n,E_max,h,eff,C_gen,C_power,C_storage):
+    '取maxR  感觉这里有问题'
     x_list =[]
     i = 0
     while i <= 7000:
@@ -79,8 +94,9 @@ def max_R(time_range:int,n,E_max,h,eff,C_gen,C_power,C_storage):
         x_list.append(X)
         # print(X)
         # print(i)
-
-    return max(x_list)
+    print(x_list)
+    print(sum(x_list))
+    return sum(x_list)*2/3
 
 
 
@@ -106,8 +122,8 @@ if __name__ == '__main__':
     #
     # load_nor = load_nor(pd_load)
     n = 507
-    eff = 0.9
-
+    # eff = 0.9
+    #
     #
     #
     # x,y=solver(x_gen[:time_range],pd_price,E_max=1,eff=0.9,h=1,n=n)
@@ -120,12 +136,19 @@ if __name__ == '__main__':
     # crf = CRF()
     # X = x_value(R_tot,crf,C_gen=6950,C_power=1190,C_storage=1743,E_max=3,h=2)
     # x_max = max_R(time_range=8000,n=507,E_max=1,h=2,eff=0.9,C_gen=6950,C_power=1190,C_storage=1743)
-    # print(x_max)
-    # dist_x_gen  =list(range(len(x_gen)))
-    # # print(len(x_gen))
+    #
+    # print()
+    #
+    #
     # #
-    # #
-    # # #
+
+
+
+
+
+
+
+    '调峰曲线'
     # x_gen_new = []
     #
     # for i in range(len(x_gen[:n])):
@@ -159,40 +182,48 @@ if __name__ == '__main__':
     #
     #
     #
-    C_power = [1190, ]
-    C_storage = [870, ]
-    E_max_ra = np.arange(0.001, 4,0.5)
-    print(E_max_ra)
-    h_ra = np.arange(0.001, 4,0.25 )
-    for power in C_power:
-        for storage in C_storage:
-            Z = []
-            for i in range(len(E_max_ra)):
-                Z_X = []
-                print(E_max_ra[i],'E_max')
-                for j in range(len(h_ra)):
-                    print(h_ra[j],'h')
-                    x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
-
-                    Z_X.append(x_max)
-                Z.append(Z_X)
-            Z = np.array(Z)
-            z = Z.tolist()
-
-            ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
 
 
-            plt.colorbar()  # 添加cbar
-            cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
-            plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
-            plt.title('storage{}! power{}!'.format(storage,power))
-            plt.xlabel(('storage time'))  # 去掉x标签
-            plt.ylabel(('storage ratio'))  # 去掉y标签
 
-            plt.savefig('汇报6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
-            plt.clf()
-            print(Z)
+
+
+
+
+    '画图相关'
+    # C_power = [1190, ]
+    # C_storage = [870, ]
+    # E_max_ra = np.arange(0.001, 4,0.5)
+    # print(E_max_ra)
+    # h_ra = np.arange(0.001, 4,0.25 )
+    # for power in C_power:
+    #     for storage in C_storage:
+    #         Z = []
+    #         for i in range(len(E_max_ra)):
+    #             Z_X = []
+    #             print(E_max_ra[i],'E_max')
+    #             for j in range(len(h_ra)):
+    #                 print(h_ra[j],'h')
+    #                 x_max = max_R(time_range=8000, n=507, E_max=i, h=j, eff=0.9, C_gen=6965, C_power=power, C_storage=storage)
+    #                 print(x_max)
+    #                 Z_X.append(x_max)
+    #             Z.append(Z_X)
+    #         Z = np.array(Z)
+    #         z = Z.tolist()
     #
+    #         ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
+    #
+    #
+    #         plt.colorbar()  # 添加cbar
+    #         cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
+    #         plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
+    #         plt.title('storage{}! power{}!'.format(storage,power))
+    #         plt.xlabel(('storage time'))  # 去掉x标签
+    #         plt.ylabel(('storage ratio'))  # 去掉y标签
+    #
+    #         plt.savefig('汇报6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
+    #         plt.clf()
+    #         print(Z)
+    # #
     C_power = [1190,]
     C_storage = [46,]
     E_max_ra = np.arange(0.001, 4,0.5)
