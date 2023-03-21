@@ -210,19 +210,19 @@ if __name__ == '__main__':
     #         Z = np.array(Z)
     #         z = Z.tolist()
     #
-    #         ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
-    #
-    #
-    #         plt.colorbar()  # 添加cbar
-    #         cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
-    #         plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
-    #         plt.title('storage{}! power{}!'.format(storage,power))
-    #         plt.xlabel(('storage time'))  # 去掉x标签
-    #         plt.ylabel(('storage ratio'))  # 去掉y标签
-    #
-    #         plt.savefig('汇报6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
-    #         plt.clf()
-    #         print(Z)
+            # ctf = plt.contourf(h_ra, E_max_ra, z,1000,cmap=plt.cm.coolwarm)
+            #
+            #
+            # plt.colorbar()  # 添加cbar
+            # cs = plt.contour(h_ra, E_max_ra, z, levels=[1], colors='k')  # 绘制一条等高线，颜色为黑色，等高线值为1
+            # plt.clabel(cs, inline=True, fontsize=1000)  # 在等高线上添加标签
+            # plt.title('storage{}! power{}!'.format(storage,power))
+            # plt.xlabel(('storage time'))  # 去掉x标签
+            # plt.ylabel(('storage ratio'))  # 去掉y标签
+            #
+            # plt.savefig('汇报6965H2storage{}+power{}.svg'.format(storage,power),format='svg')
+            # plt.clf()
+            # print(Z)
     # #
     C_power = [1190,]
     C_storage = [46,]

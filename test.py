@@ -94,22 +94,37 @@ def zeros(number: list):
         x.append(0)
     return x
 if __name__ == '__main__':
-    n =4
-    pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor =data_load.data_load.data_load()
-    number, number_dis, number_ch = number_list(n)
-
-    x0 = zeros(number)
-    pice = [0.1,0.3,0.2,0.4]
-    x_gen = [0.1,0.2,0.3,0.4]
-
-    func_para =np.array(func(number=number,eff=0.9,price=pice))
-
-    bounds_au =np.array(bounds_storage(number=number,h=1,E_max=1))
-    bounds_bu = np.array([1,0])
-    bounds =bounds(number,x_gen,eff=0.9,E_max=1)
-    res = scipy.optimize.linprog(-func_para,bounds_au,bounds_bu,bounds=bounds)
-    print(res)
+    # n =4
+    # pd_load, pd_price, pd_wea_wind, pd_wea_G_dir, pd_wea_G_diff, pd_wea_T, pd_wea_G_hor =data_load.data_load.data_load()
+    # number, number_dis, number_ch = number_list(n)
+    #
+    # x0 = zeros(number)
+    # pice = [0.1,0.3,0.2,0.4]
+    # x_gen = [0.1,0.2,0.3,0.4]
+    #
+    # func_para =np.array(func(number=number,eff=0.9,price=pice))
+    #
+    # bounds_au =np.array(bounds_storage(number=number,h=1,E_max=1))
+    # bounds_bu = np.array([1,0])
+    # bounds =bounds(number,x_gen,eff=0.9,E_max=1)
+    # res = scipy.optimize.linprog(-func_para,bounds_au,bounds_bu,bounds=bounds)
+    # print(res)
     # check_st(res.x,E_max=1,x_gen=x_gen,eff=0.9,h=1)
+    e = [0.1,0.2,0.3]
+    h = [0.1,0.2,0.3]
+    z = [1,2,3]
+    a = []
+    c = []
+    for i in range(len((e))):
+        a = []
+        a.append(e[i])
+        a.append(h[i])
+        a.append(z[i])
+        c.append(a)
+    print(c)
+    a = np.load('c.txt.npy')
+    print(a )
+
 
 
 
